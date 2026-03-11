@@ -1,0 +1,31 @@
+# Pending removal in Python 3.15
+
+- The import system:
+  - Setting `__cached__` on a module while failing to set `__spec__.cached <importlib.machinery.ModuleSpec.cached>`{.interpreted-text role="attr"} is deprecated. In Python 3.15, `__cached__` will cease to be set or take into consideration by the import system or standard library. (`97879`{.interpreted-text role="gh"})
+  - Setting `~module.__package__`{.interpreted-text role="attr"} on a module while failing to set `__spec__.parent <importlib.machinery.ModuleSpec.parent>`{.interpreted-text role="attr"} is deprecated. In Python 3.15, `!__package__`{.interpreted-text role="attr"} will cease to be set or take into consideration by the import system or standard library. (`97879`{.interpreted-text role="gh"})
+- `ctypes`{.interpreted-text role="mod"}:
+  - The undocumented `!ctypes.SetPointerType`{.interpreted-text role="func"} function has been deprecated since Python 3.13.
+- `http.server`{.interpreted-text role="mod"}:
+  - The obsolete and rarely used `!CGIHTTPRequestHandler`{.interpreted-text role="class"} has been deprecated since Python 3.13. No direct replacement exists. *Anything* is better than CGI to interface a web server with a request handler.
+  - The `!--cgi`{.interpreted-text role="option"} flag to the `python -m http.server`{.interpreted-text role="program"} command-line interface has been deprecated since Python 3.13.
+- `importlib`{.interpreted-text role="mod"}:
+  - `load_module()` method: use `exec_module()` instead.
+- `pathlib`{.interpreted-text role="mod"}:
+  - `!.PurePath.is_reserved`{.interpreted-text role="meth"} has been deprecated since Python 3.13. Use `os.path.isreserved`{.interpreted-text role="func"} to detect reserved paths on Windows.
+- `platform`{.interpreted-text role="mod"}:
+  - `!platform.java_ver`{.interpreted-text role="func"} has been deprecated since Python 3.13. This function is only useful for Jython support, has a confusing API, and is largely untested.
+- `sysconfig`{.interpreted-text role="mod"}:
+  - The *check_home* argument of `sysconfig.is_python_build`{.interpreted-text role="func"} has been deprecated since Python 3.12.
+- `threading`{.interpreted-text role="mod"}:
+  - `~threading.RLock`{.interpreted-text role="func"} will take no arguments in Python 3.15. Passing any arguments has been deprecated since Python 3.14, as the Python version does not permit any arguments, but the C version allows any number of positional or keyword arguments, ignoring every argument.
+- `types`{.interpreted-text role="mod"}:
+  - `types.CodeType`{.interpreted-text role="class"}: Accessing `~codeobject.co_lnotab`{.interpreted-text role="attr"} was deprecated in `626`{.interpreted-text role="pep"} since 3.10 and was planned to be removed in 3.12, but it only got a proper `DeprecationWarning`{.interpreted-text role="exc"} in 3.12. May be removed in 3.15. (Contributed by Nikita Sobolev in `101866`{.interpreted-text role="gh"}.)
+- `typing`{.interpreted-text role="mod"}:
+  - The undocumented keyword argument syntax for creating `~typing.NamedTuple`{.interpreted-text role="class"} classes (for example, `Point = NamedTuple("Point", x=int, y=int)`) has been deprecated since Python 3.13. Use the class-based syntax or the functional syntax instead.
+  - When using the functional syntax of `~typing.TypedDict`{.interpreted-text role="class"}s, failing to pass a value to the *fields* parameter (`TD = TypedDict("TD")`) or passing `None` (`TD = TypedDict("TD", None)`) has been deprecated since Python 3.13. Use `class TD(TypedDict): pass` or `TD = TypedDict("TD", {})` to create a TypedDict with zero field.
+  - The `!typing.no_type_check_decorator`{.interpreted-text role="func"} decorator function has been deprecated since Python 3.13. After eight years in the `typing`{.interpreted-text role="mod"} module, it has yet to be supported by any major type checker.
+- `!sre_compile`{.interpreted-text role="mod"}, `!sre_constants`{.interpreted-text role="mod"} and `!sre_parse`{.interpreted-text role="mod"} modules.
+- `wave`{.interpreted-text role="mod"}:
+  - The `getmark()`, `setmark()` and `getmarkers()` methods of the `~wave.Wave_read`{.interpreted-text role="class"} and `~wave.Wave_write`{.interpreted-text role="class"} classes have been deprecated since Python 3.13.
+- `zipimport`{.interpreted-text role="mod"}:
+  - `!zipimport.zipimporter.load_module`{.interpreted-text role="meth"} has been deprecated since Python 3.10. Use `~zipimport.zipimporter.exec_module`{.interpreted-text role="meth"} instead. (`125746`{.interpreted-text role="gh"}.)

@@ -1,0 +1,5 @@
+# Pending removal in Python 3.20
+
+- `!_PyObject_CallMethodId`{.interpreted-text role="c:func"}, `!_PyObject_GetAttrId`{.interpreted-text role="c:func"} and `!_PyUnicode_FromId`{.interpreted-text role="c:func"} are deprecated since 3.15 and will be removed in 3.20. Instead, use `PyUnicode_InternFromString()`{.interpreted-text role="c:func"} and cache the result in the module state, then call `PyObject_CallMethod`{.interpreted-text role="c:func"} or `PyObject_GetAttr`{.interpreted-text role="c:func"}. (Contributed by Victor Stinner in `141049`{.interpreted-text role="gh"}.)
+- The `cval` field in `PyComplexObject`{.interpreted-text role="c:type"} (`128813`{.interpreted-text role="gh"}). Use `PyComplex_AsCComplex`{.interpreted-text role="c:func"} and `PyComplex_FromCComplex`{.interpreted-text role="c:func"} to convert a Python complex number to/from the C `Py_complex`{.interpreted-text role="c:type"} representation.
+- Macros `!Py_MATH_PIl`{.interpreted-text role="c:macro"} and `!Py_MATH_El`{.interpreted-text role="c:macro"}.

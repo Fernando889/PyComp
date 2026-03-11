@@ -1,0 +1,154 @@
+# `!importlib.resources.abc`{.interpreted-text role="mod"} \-- Abstract base classes for resources
+
+::: {.module synopsis="Abstract base classes for resources"}
+importlib.resources.abc
+:::
+
+**Source code:** `Lib/importlib/resources/abc.py`{.interpreted-text role="source"}
+
+------------------------------------------------------------------------
+
+::: versionadded
+3.11
+:::
+
+::::::::: ResourceReader
+*Superseded by TraversableResources*
+
+An `abstract base class`{.interpreted-text role="term"} to provide the ability to read *resources*.
+
+From the perspective of this ABC, a *resource* is a binary artifact that is shipped within a package. Typically this is something like a data file that lives next to the `__init__.py` file of the package. The purpose of this class is to help abstract out the accessing of such data files so that it does not matter if the package and its data file(s) are stored e.g. in a zip file versus on the file system.
+
+For any of methods of this class, a *resource* argument is expected to be a `path-like object`{.interpreted-text role="term"} which represents conceptually just a file name. This means that no subdirectory paths should be included in the *resource* argument. This is because the location of the package the reader is for, acts as the \"directory\". Hence the metaphor for directories and file names is packages and resources, respectively. This is also why instances of this class are expected to directly correlate to a specific package (instead of potentially representing multiple packages or a module).
+
+Loaders that wish to support resource reading are expected to provide a method called `get_resource_reader(fullname)` which returns an object implementing this ABC\'s interface. If the module specified by fullname is not a package, this method should return `None`{.interpreted-text role="const"}. An object compatible with this ABC should only be returned when the specified module is a package.
+
+::: deprecated
+3.12 Use `importlib.resources.abc.TraversableResources`{.interpreted-text role="class"} instead.
+:::
+
+::: {.method abstractmethod=""}
+open_resource(resource)
+
+Returns an opened, `file-like object`{.interpreted-text role="term"} for binary reading of the *resource*.
+
+If the resource cannot be found, `FileNotFoundError`{.interpreted-text role="exc"} is raised.
+:::
+
+::: {.method abstractmethod=""}
+resource_path(resource)
+
+Returns the file system path to the *resource*.
+
+If the resource does not concretely exist on the file system, raise `FileNotFoundError`{.interpreted-text role="exc"}.
+:::
+
+:::: {.method abstractmethod=""}
+is_resource(path)
+
+Returns `True` if the named *path* is considered a resource. `FileNotFoundError`{.interpreted-text role="exc"} is raised if *path* does not exist.
+
+::: versionchanged
+3.10 The argument *name* was renamed to *path*.
+:::
+::::
+
+::: {.method abstractmethod=""}
+contents()
+
+Returns an `iterable`{.interpreted-text role="term"} of strings over the contents of the package. Do note that it is not required that all names returned by the iterator be actual resources, e.g. it is acceptable to return names for which `is_resource`{.interpreted-text role="meth"} would be false.
+
+Allowing non-resource names to be returned is to allow for situations where how a package and its resources are stored are known a priori and the non-resource names would be useful. For instance, returning subdirectory names is allowed so that when it is known that the package and resources are stored on the file system then those subdirectory names can be used directly.
+
+The abstract method returns an iterable of no items.
+:::
+:::::::::
+
+::::::::::::: Traversable
+An object with a subset of `pathlib.Path`{.interpreted-text role="class"} methods suitable for traversing directories and opening files.
+
+For a representation of the object on the file-system, use `importlib.resources.as_file`{.interpreted-text role="meth"}.
+
+::: attribute
+name
+
+Abstract. The base name of this object without any parent references.
+:::
+
+::: {.method abstractmethod=""}
+iterdir()
+
+Yield Traversable objects in self.
+:::
+
+::: {.method abstractmethod=""}
+is_dir()
+
+Return `True` if self is a directory.
+:::
+
+::: {.method abstractmethod=""}
+is_file()
+
+Return `True` if self is a file.
+:::
+
+:::: {.method abstractmethod=""}
+joinpath(\*pathsegments)
+
+Traverse directories according to *pathsegments* and return the result as `!Traversable`{.interpreted-text role="class"}.
+
+Each *pathsegments* argument may contain multiple names separated by forward slashes (`/`, `posixpath.sep` ). For example, the following are equivalent:
+
+    files.joinpath('subdir', 'subsuddir', 'file.txt')
+    files.joinpath('subdir/subsuddir/file.txt')
+
+Note that some `!Traversable`{.interpreted-text role="class"} implementations might not be updated to the latest version of the protocol. For compatibility with such implementations, provide a single argument without path separators to each call to `joinpath`. For example:
+
+    files.joinpath('subdir').joinpath('subsubdir').joinpath('file.txt')
+
+::: versionchanged
+3.11
+
+`joinpath` accepts multiple *pathsegments*, and these segments may contain forward slashes as path separators. Previously, only a single *child* argument was accepted.
+:::
+::::
+
+::: {.method abstractmethod=""}
+\_\_truediv\_\_(child)
+
+Return Traversable child in self. Equivalent to `joinpath(child)`.
+:::
+
+::: {.method abstractmethod=""}
+open(mode=\'r\', *args,*\*kwargs)
+
+*mode* may be \'r\' or \'rb\' to open as text or binary. Return a handle suitable for reading (same as `pathlib.Path.open`{.interpreted-text role="attr"}).
+
+When opening as text, accepts encoding parameters such as those accepted by `io.TextIOWrapper`{.interpreted-text role="class"}.
+:::
+
+::: method
+read_bytes()
+
+Read contents of self as bytes.
+:::
+
+::: method
+read_text(encoding=None)
+
+Read contents of self as text.
+:::
+:::::::::::::
+
+:::: TraversableResources
+An abstract base class for resource readers capable of serving the `importlib.resources.files`{.interpreted-text role="meth"} interface. Subclasses `ResourceReader`{.interpreted-text role="class"} and provides concrete implementations of the `!ResourceReader`{.interpreted-text role="class"}\'s abstract methods. Therefore, any loader supplying `!TraversableResources`{.interpreted-text role="class"} also supplies `!ResourceReader`{.interpreted-text role="class"}.
+
+Loaders that wish to support resource reading are expected to implement this interface.
+
+::: {.method abstractmethod=""}
+files()
+
+Returns a `importlib.resources.abc.Traversable`{.interpreted-text role="class"} object for the loaded package.
+:::
+::::

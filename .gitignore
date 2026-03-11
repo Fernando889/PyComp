@@ -1,0 +1,6 @@
+.env
+learn.py
+__pycache__/
+*.pyc
+.gradio/
+vector_db/

@@ -1,0 +1,72 @@
+# Pending removal in future versions
+
+The following APIs will be removed in the future, although there is currently no date scheduled for their removal.
+
+- `argparse`{.interpreted-text role="mod"}:
+  - Nesting argument groups and nesting mutually exclusive groups are deprecated.
+  - Passing the undocumented keyword argument *prefix_chars* to `~argparse.ArgumentParser.add_argument_group`{.interpreted-text role="meth"} is now deprecated.
+  - The `argparse.FileType`{.interpreted-text role="class"} type converter is deprecated.
+- `builtins`{.interpreted-text role="mod"}:
+  - Generators: `throw(type, exc, tb)` and `athrow(type, exc, tb)` signature is deprecated: use `throw(exc)` and `athrow(exc)` instead, the single argument signature.
+  - Currently Python accepts numeric literals immediately followed by keywords, for example `0in x`, `1or x`, `0if 1else 2`. It allows confusing and ambiguous expressions like `[0x1for x in y]` (which can be interpreted as `[0x1 for x in y]` or `[0x1f or x in y]`). A syntax warning is raised if the numeric literal is immediately followed by one of keywords `and`{.interpreted-text role="keyword"}, `else`{.interpreted-text role="keyword"}, `for`{.interpreted-text role="keyword"}, `if`{.interpreted-text role="keyword"}, `in`{.interpreted-text role="keyword"}, `is`{.interpreted-text role="keyword"} and `or`{.interpreted-text role="keyword"}. In a future release it will be changed to a syntax error. (`87999`{.interpreted-text role="gh"})
+  - Support for `__index__()` and `__int__()` method returning non-int type: these methods will be required to return an instance of a strict subclass of `int`{.interpreted-text role="class"}.
+  - Support for `__float__()` method returning a strict subclass of `float`{.interpreted-text role="class"}: these methods will be required to return an instance of `float`{.interpreted-text role="class"}.
+  - Support for `__complex__()` method returning a strict subclass of `complex`{.interpreted-text role="class"}: these methods will be required to return an instance of `complex`{.interpreted-text role="class"}.
+  - Passing a complex number as the *real* or *imag* argument in the `complex`{.interpreted-text role="func"} constructor is now deprecated; it should only be passed as a single positional argument. (Contributed by Serhiy Storchaka in `109218`{.interpreted-text role="gh"}.)
+- `calendar`{.interpreted-text role="mod"}: `calendar.January` and `calendar.February` constants are deprecated and replaced by `calendar.JANUARY`{.interpreted-text role="data"} and `calendar.FEBRUARY`{.interpreted-text role="data"}. (Contributed by Prince Roshan in `103636`{.interpreted-text role="gh"}.)
+- `codecs`{.interpreted-text role="mod"}: use `open`{.interpreted-text role="func"} instead of `codecs.open`{.interpreted-text role="func"}. (`133038`{.interpreted-text role="gh"})
+- `codeobject.co_lnotab`{.interpreted-text role="attr"}: use the `codeobject.co_lines`{.interpreted-text role="meth"} method instead.
+- `datetime`{.interpreted-text role="mod"}:
+  - `~datetime.datetime.utcnow`{.interpreted-text role="meth"}: use `datetime.datetime.now(tz=datetime.UTC)`.
+  - `~datetime.datetime.utcfromtimestamp`{.interpreted-text role="meth"}: use `datetime.datetime.fromtimestamp(timestamp, tz=datetime.UTC)`.
+- `gettext`{.interpreted-text role="mod"}: Plural value must be an integer.
+- `importlib`{.interpreted-text role="mod"}:
+  - `~importlib.util.cache_from_source`{.interpreted-text role="func"} *debug_override* parameter is deprecated: use the *optimization* parameter instead.
+- `importlib.metadata`{.interpreted-text role="mod"}:
+  - `EntryPoints` tuple interface.
+  - Implicit `None` on return values.
+- `logging`{.interpreted-text role="mod"}: the `warn()` method has been deprecated since Python 3.3, use `~logging.warning`{.interpreted-text role="meth"} instead.
+- `mailbox`{.interpreted-text role="mod"}: Use of StringIO input and text mode is deprecated, use BytesIO and binary mode instead.
+- `os`{.interpreted-text role="mod"}: Calling `os.register_at_fork`{.interpreted-text role="func"} in a multi-threaded process.
+- `os.path`{.interpreted-text role="mod"}: `os.path.commonprefix`{.interpreted-text role="func"} is deprecated, use `os.path.commonpath`{.interpreted-text role="func"} for path prefixes. The `os.path.commonprefix`{.interpreted-text role="func"} function is being deprecated due to having a misleading name and module. The function is not safe to use for path prefixes despite being included in a module about path manipulation, meaning it is easy to accidentally introduce path traversal vulnerabilities into Python programs by using this function.
+- `!pydoc.ErrorDuringImport`{.interpreted-text role="class"}: A tuple value for *exc_info* parameter is deprecated, use an exception instance.
+- `re`{.interpreted-text role="mod"}: More strict rules are now applied for numerical group references and group names in regular expressions. Only sequence of ASCII digits is now accepted as a numerical reference. The group name in bytes patterns and replacement strings can now only contain ASCII letters and digits and underscore. (Contributed by Serhiy Storchaka in `91760`{.interpreted-text role="gh"}.)
+- `shutil`{.interpreted-text role="mod"}: `~shutil.rmtree`{.interpreted-text role="func"}\'s *onerror* parameter is deprecated in Python 3.12; use the *onexc* parameter instead.
+- `ssl`{.interpreted-text role="mod"} options and protocols:
+  - `ssl.SSLContext`{.interpreted-text role="class"} without protocol argument is deprecated.
+  - `ssl.SSLContext`{.interpreted-text role="class"}: `~ssl.SSLContext.set_npn_protocols`{.interpreted-text role="meth"} and `!selected_npn_protocol`{.interpreted-text role="meth"} are deprecated: use ALPN instead.
+  - `ssl.OP_NO_SSL*` options
+  - `ssl.OP_NO_TLS*` options
+  - `ssl.PROTOCOL_SSLv3`
+  - `ssl.PROTOCOL_TLS`
+  - `ssl.PROTOCOL_TLSv1`
+  - `ssl.PROTOCOL_TLSv1_1`
+  - `ssl.PROTOCOL_TLSv1_2`
+  - `ssl.TLSVersion.SSLv3`
+  - `ssl.TLSVersion.TLSv1`
+  - `ssl.TLSVersion.TLSv1_1`
+- `threading`{.interpreted-text role="mod"} methods:
+  - `!threading.Condition.notifyAll`{.interpreted-text role="meth"}: use `~threading.Condition.notify_all`{.interpreted-text role="meth"}.
+  - `!threading.Event.isSet`{.interpreted-text role="meth"}: use `~threading.Event.is_set`{.interpreted-text role="meth"}.
+  - `!threading.Thread.isDaemon`{.interpreted-text role="meth"}, `threading.Thread.setDaemon`{.interpreted-text role="meth"}: use `threading.Thread.daemon`{.interpreted-text role="attr"} attribute.
+  - `!threading.Thread.getName`{.interpreted-text role="meth"}, `threading.Thread.setName`{.interpreted-text role="meth"}: use `threading.Thread.name`{.interpreted-text role="attr"} attribute.
+  - `!threading.currentThread`{.interpreted-text role="meth"}: use `threading.current_thread`{.interpreted-text role="meth"}.
+  - `!threading.activeCount`{.interpreted-text role="meth"}: use `threading.active_count`{.interpreted-text role="meth"}.
+- `typing.Text`{.interpreted-text role="class"} (`92332`{.interpreted-text role="gh"}).
+- The internal class `typing._UnionGenericAlias` is no longer used to implement `typing.Union`{.interpreted-text role="class"}. To preserve compatibility with users using this private class, a compatibility shim will be provided until at least Python 3.17. (Contributed by Jelle Zijlstra in `105499`{.interpreted-text role="gh"}.)
+- `unittest.IsolatedAsyncioTestCase`{.interpreted-text role="class"}: it is deprecated to return a value that is not `None` from a test case.
+- `urllib.parse`{.interpreted-text role="mod"} deprecated functions: `~urllib.parse.urlparse`{.interpreted-text role="func"} instead
+  - `splitattr()`
+  - `splithost()`
+  - `splitnport()`
+  - `splitpasswd()`
+  - `splitport()`
+  - `splitquery()`
+  - `splittag()`
+  - `splittype()`
+  - `splituser()`
+  - `splitvalue()`
+  - `to_bytes()`
+- `wsgiref`{.interpreted-text role="mod"}: `SimpleHandler.stdout.write()` should not do partial writes.
+- `xml.etree.ElementTree`{.interpreted-text role="mod"}: Testing the truth value of an `~xml.etree.ElementTree.Element`{.interpreted-text role="class"} is deprecated. In a future release it will always return `True`. Prefer explicit `len(elem)` or `elem is not None` tests instead.
+- `sys._clear_type_cache`{.interpreted-text role="func"} is deprecated: use `sys._clear_internal_caches`{.interpreted-text role="func"} instead.

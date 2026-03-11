@@ -1,0 +1,11 @@
+# Networking and Interprocess Communication {#ipc}
+
+The modules described in this chapter provide mechanisms for networking and inter-processes communication.
+
+Some modules only work for two processes that are on the same machine, e.g. `signal`{.interpreted-text role="mod"} and `mmap`{.interpreted-text role="mod"}. Other modules support networking protocols that two or more processes can use to communicate across machines.
+
+The list of modules described in this chapter is:
+
+::: {.toctree maxdepth="1"}
+asyncio.rst socket.rst ssl.rst select.rst selectors.rst signal.rst mmap.rst
+:::
