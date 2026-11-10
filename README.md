@@ -1,6 +1,6 @@
 # PyComp: Simple Python Companion
 
-A local RAG-based Python documentation assistant. PyComp leverages semantic search, cross-encoder reranking, and a quantized LLM to deliver accurate answers from the Official Python Documentation — all running on consumer hardware with 4GB VRAM. Live Demo: https://huggingface.co/spaces/ITookAPill/PyComp. 
+A local RAG-based Python documentation assistant. PyComp leverages semantic search, cross-encoder reranking, and a quantized LLM to deliver accurate answers from the Official Python Documentation — all running on consumer hardware with 4GB VRAM.
 
 ⚠️ Note: The live demo runs on HuggingFace Free Tier (CPU only). Response time may be significantly slower than local deployment due to the absence of GPU acceleration.
 
